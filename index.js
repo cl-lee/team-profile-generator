@@ -13,3 +13,11 @@ const render = require("./src/page-template.js");
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
+// 1st gather info
+// with Inquirer eventually
+
+// 2nd put info onto page template (from .\src\page-template.js)
+
+
+
+// 3rd generate output (fs writeFile)
