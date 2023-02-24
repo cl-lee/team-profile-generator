@@ -16,11 +16,6 @@ const render = require("./src/page-template.js");
 // 1st gather info
 // with Inquirer eventually
 
-let newEngineer = new Engineer ("Hasan", 12334, "test@test.com")
-console.log(newEngineer.getName());
-
-let team = [];
-
 
 // 2nd put info onto page template (from .\src\page-template.js)
 
