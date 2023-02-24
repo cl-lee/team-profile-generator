@@ -16,9 +16,14 @@ const render = require("./src/page-template.js");
 // 1st gather info
 // with Inquirer eventually
 
+let newEngineer = new Engineer("Mana", 123, "test@test.com", "cl-lee");
+
+let team = [];
+team.push(newEngineer);
 
 // 2nd put info onto page template (from .\src\page-template.js)
-
-
+let renderHTMLDocument = render(team);
 
 // 3rd generate output (fs writeFile)
+fs.writeFile(outputPath, renderHTMLDocument, (err) =>
+err ? console.error(err) : console.log('Success!'));
