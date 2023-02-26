@@ -16,9 +16,11 @@ const render = require("./src/page-template.js");
 
 let team = [];
 
+
+
 async function initiateApplication() {
   // Inquirer prompts
-  let { managerName, employeeID, emailAddress, officeNumber } =
+  let { managerName, employeeID, emailAddress, officeNumber, menu } =
     await inquirer.prompt([
       {
         type: "input",
@@ -40,8 +42,34 @@ async function initiateApplication() {
         name: "officeNumber",
         message: "Please enter the team manager's OFFICE NUMBER:",
       },
+      {
+        type: "list",
+        name: "menu",
+        message: "Please select an option:",
+        choices: [
+          {
+            name: "Add an engineer",
+            value: "addEngineer",
+            desciption: "Add an engineer",
+          },
+          {
+            name: "Add an intern",
+            value: "addIntern",
+            desciption: "Add an intern",
+          },
+          {
+            name: "Finish building the team",
+            value: "finishTeamBuilding",
+            desciption: "Finish building the team",
+          },
+        ],
+      },
     ]);
-
+    
+    // if (menu === "addEngineer")
+    
+    console.log(menu);
+  
   let newManager = new Manager(
     managerName,
     employeeID,
@@ -50,7 +78,7 @@ async function initiateApplication() {
   );
 
   team.push(newManager);
-  
+
   // 2nd put info onto page template (from .\src\page-template.js)
   let renderHTMLDocument = render(team);
 
