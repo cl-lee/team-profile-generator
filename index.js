@@ -10,6 +10,103 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
+// INQUIRER QUESTIONS
+// Manager Questions
+const managerQuestions = [
+  {
+    type: "input",
+    name: "managerName",
+    message: "Please enter the team manager's NAME:",
+  },
+  {
+    type: "input",
+    name: "managersID",
+    message: "Please enter the team manager's EMPLOYEE ID:",
+  },
+  {
+    type: "input",
+    name: "managersEmail",
+    message: "Please enter the team manager's EMAIL ADDRESS:",
+  },
+  {
+    type: "input",
+    name: "officeNumber",
+    message: "Please enter the team manager's OFFICE NUMBER:",
+  },
+];
+
+// Menu Questions
+const menuQuestions = {
+  type: "list",
+  name: "menu",
+  message: "Please select an option:",
+  choices: [
+    {
+      name: "Add an engineer",
+      value: "addEngineer",
+      desciption: "Add an engineer",
+    },
+    {
+      name: "Add an intern",
+      value: "addIntern",
+      desciption: "Add an intern",
+    },
+    {
+      name: "Finish building the team",
+      value: "finishedBuildingTeam",
+      desciption: "Finish building the team",
+    },
+  ],
+};
+
+// Engineer Questions
+const engineerQuestions = [
+  {
+    type: "input",
+    name: "engineersName",
+    message: "Please enter the engineer's NAME:",
+  },
+  {
+    type: "input",
+    name: "engineersID",
+    message: "Please enter the engineer's EMPLOYEE ID:",
+  },
+  {
+    type: "input",
+    name: "engineersEmail",
+    message: "Please enter the engineer's EMAIL ADDRESS:",
+  },
+  {
+    type: "input",
+    name: "githubUsername",
+    message: "Please enter the engineer's GITHUB USERNAME:",
+  },
+];
+
+// Intern Questions
+const internQuestions = [
+  {
+    type: "input",
+    name: "internsName",
+    message: "Please enter the intern's NAME:",
+  },
+  {
+    type: "input",
+    name: "internsID",
+    message: "Please enter the intern's EMPLOYEE ID:",
+  },
+  {
+    type: "input",
+    name: "internsEmail",
+    message: "Please enter the intern's EMAIL ADDRESS:",
+  },
+  {
+    type: "input",
+    name: "internsSchool",
+    message: "Please enter the intern's SCHOOL NAME:",
+  },
+];
+
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
 // Gathers employee information using Inquirer
@@ -19,28 +116,7 @@ let team = [];
 async function initiateApplication() {
   // Inquirer prompts
   let { managerName, managersID, managersEmail, officeNumber } =
-    await inquirer.prompt([
-      {
-        type: "input",
-        name: "managerName",
-        message: "Please enter the team manager's NAME:",
-      },
-      {
-        type: "input",
-        name: "managersID",
-        message: "Please enter the team manager's EMPLOYEE ID:",
-      },
-      {
-        type: "input",
-        name: "managersEmail",
-        message: "Please enter the team manager's EMAIL ADDRESS:",
-      },
-      {
-        type: "input",
-        name: "officeNumber",
-        message: "Please enter the team manager's OFFICE NUMBER:",
-      },
-    ]);
+    await inquirer.prompt(managerQuestions);
 
   let newManager = new Manager(
     managerName,
@@ -50,29 +126,6 @@ async function initiateApplication() {
   );
 
   team.push(newManager);
-
-  let menuQuestions = {
-    type: "list",
-    name: "menu",
-    message: "Please select an option:",
-    choices: [
-      {
-        name: "Add an engineer",
-        value: "addEngineer",
-        desciption: "Add an engineer",
-      },
-      {
-        name: "Add an intern",
-        value: "addIntern",
-        desciption: "Add an intern",
-      },
-      {
-        name: "Finish building the team",
-        value: "finishedBuildingTeam",
-        desciption: "Finish building the team",
-      },
-    ],
-  };
 
   async function checkMenu() {
     let { menu } = await inquirer.prompt(menuQuestions);
@@ -87,67 +140,21 @@ async function initiateApplication() {
 
   checkMenu();
 
-  const engineerQuestions = [
-    {
-      type: "input",
-      name: "engineersName",
-      message: "Please enter the engineer's NAME:",
-    },
-    {
-      type: "input",
-      name: "engineersID",
-      message: "Please enter the engineer's EMPLOYEE ID:",
-    },
-    {
-      type: "input",
-      name: "engineersEmail",
-      message: "Please enter the engineer's EMAIL ADDRESS:",
-    },
-    {
-      type: "input",
-      name: "githubUsername",
-      message: "Please enter the engineer's GITHUB USERNAME:",
-    },
-  ];
-  
   async function addAnEngineer() {
-  let { engineersName, engineersID, engineersEmail, githubUsername } =
-    await inquirer.prompt(engineerQuestions);
-  let newEngineer = new Engineer(
-    engineersName,
-    engineersID,
-    engineersEmail,
-    githubUsername
-  );
-  console.log(newEngineer);
-  team.push(newEngineer);
-  };
+    let { engineersName, engineersID, engineersEmail, githubUsername } =
+      await inquirer.prompt(engineerQuestions);
+    let newEngineer = new Engineer(
+      engineersName,
+      engineersID,
+      engineersEmail,
+      githubUsername
+    );
+    team.push(newEngineer);
+  }
 
-
-  // let { internsName, internsID, internsEmail, internsSchool } =
-  //   await inquirer.prompt([
-  //     {
-  //       type: "input",
-  //       name: "internsName",
-  //       message: "Please enter the intern's NAME:",
-  //     },
-  //     {
-  //       type: "input",
-  //       name: "internsID",
-  //       message: "Please enter the intern's EMPLOYEE ID:",
-  //     },
-  //     {
-  //       type: "input",
-  //       name: "internsEmail",
-  //       message: "Please enter the intern's EMAIL ADDRESS:",
-  //     },
-  //     {
-  //       type: "input",
-  //       name: "internsSchool",
-  //       message: "Please enter the intern's SCHOOL NAME:",
-  //     },
-  //   ]);
-
+  
+  // const { internsName, internsID, internsEmail, internsSchool } =
+  //   await inquirer.prompt(internQuestions)
   // let newIntern = new Intern(
   //   internsName,
   //   internsID,
