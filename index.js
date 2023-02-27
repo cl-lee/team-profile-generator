@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
-// INQUIRER QUESTIONS
+// --- Inquirer Questions ---
 // Manager Questions
 const managerQuestions = [
   {
@@ -107,10 +107,32 @@ const internQuestions = [
   },
 ];
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
+// --- Functions to run inquirer prompts and associated codes ---
+// Menu for user to add an engineer, add an intern or finish building the team
+async function checkMenu() {
+  let { menu } = await inquirer.prompt(menuQuestions);
+  console.log(menu);
+  if (menu === "addEngineer") {
+    await addAnEngineer();
+    checkMenu();
+  } else {
+    console.log("Finished building team");
+  }
+}
+
+async function addAnEngineer() {
+  let { engineersName, engineersID, engineersEmail, githubUsername } =
+    await inquirer.prompt(engineerQuestions);
+  let newEngineer = new Engineer(
+    engineersName,
+    engineersID,
+    engineersEmail,
+    githubUsername
+  );
+  team.push(newEngineer);
+}
 
 // Gathers employee information using Inquirer
-
 let team = [];
 
 async function initiateApplication() {
@@ -127,32 +149,11 @@ async function initiateApplication() {
 
   team.push(newManager);
 
-  async function checkMenu() {
-    let { menu } = await inquirer.prompt(menuQuestions);
-    console.log(menu);
-    if (menu === "addEngineer") {
-      await addAnEngineer();
-      checkMenu();
-    } else {
-      console.log("finished");
-    }
-  }
+  await checkMenu();
 
-  checkMenu();
 
-  async function addAnEngineer() {
-    let { engineersName, engineersID, engineersEmail, githubUsername } =
-      await inquirer.prompt(engineerQuestions);
-    let newEngineer = new Engineer(
-      engineersName,
-      engineersID,
-      engineersEmail,
-      githubUsername
-    );
-    team.push(newEngineer);
-  }
 
-  
+
   // const { internsName, internsID, internsEmail, internsSchool } =
   //   await inquirer.prompt(internQuestions)
   // let newIntern = new Intern(
