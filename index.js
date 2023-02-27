@@ -48,70 +48,105 @@ async function initiateApplication() {
     managersEmail,
     officeNumber
   );
-  
+
   console.log(newManager);
   team.push(newManager);
 
-  let { menu } = await inquirer.prompt({
-    type: "list",
-    name: "menu",
-    message: "Please select an option:",
-    choices: [
-      {
-        name: "Add an engineer",
-        value: "addEngineer",
-        desciption: "Add an engineer",
-      },
-      {
-        name: "Add an intern",
-        value: "addIntern",
-        desciption: "Add an intern",
-      },
-      {
-        name: "Finish building the team",
-        value: "finishTeamBuilding",
-        desciption: "Finish building the team",
-      },
-    ],
-  });
+    let { menu } =     
+    await inquirer.prompt({
+      type: "list",
+      name: "menu",
+      message: "Please select an option:",
+      choices: [
+        {
+          name: "Add an engineer",
+          value: "addEngineer",
+          desciption: "Add an engineer",
+        },
+        {
+          name: "Add an intern",
+          value: "addIntern",
+          desciption: "Add an intern",
+        },
+        {
+          name: "Finish building the team",
+          value: "finishTeamBuilding",
+          desciption: "Finish building the team",
+        },
+      ],
+    });
+    console.log(menu);
 
-  let { engineersName, engineersID, engineersEmail, githubUsername } =
-    await inquirer.prompt([
-      {
-        type: "input",
-        name: "engineersName",
-        message: "Please enter the engineer's NAME:",
-      },
-      {
-        type: "input",
-        name: "engineersID",
-        message: "Please enter the engineer's EMPLOYEE ID:",
-      },
-      {
-        type: "input",
-        name: "engineersEmail",
-        message: "Please enter the engineer's EMAIL ADDRESS:",
-      },
-      {
-        type: "input",
-        name: "githubUsername",
-        message: "Please enter the engineer's GITHUB USERNAME:",
-      },
-    ]);
+  if (menu === "addEngineer") {
+    let { engineersName, engineersID, engineersEmail, githubUsername } =
+      await inquirer.prompt([
+        {
+          type: "input",
+          name: "engineersName",
+          message: "Please enter the engineer's NAME:",
+        },
+        {
+          type: "input",
+          name: "engineersID",
+          message: "Please enter the engineer's EMPLOYEE ID:",
+        },
+        {
+          type: "input",
+          name: "engineersEmail",
+          message: "Please enter the engineer's EMAIL ADDRESS:",
+        },
+        {
+          type: "input",
+          name: "githubUsername",
+          message: "Please enter the engineer's GITHUB USERNAME:",
+        },
+      ]);
 
     let newEngineer = new Engineer(
       engineersName,
       engineersID,
       engineersEmail,
-      githubUsername,
+      githubUsername
     );
-    
+
     console.log(newEngineer);
     team.push(newEngineer);
+    
+  } else if (menu === "addIntern") {
+    let { internsName, internsID, internsEmail, internsSchool } =
+      await inquirer.prompt([
+        {
+          type: "input",
+          name: "internsName",
+          message: "Please enter the intern's NAME:",
+        },
+        {
+          type: "input",
+          name: "internsID",
+          message: "Please enter the intern's EMPLOYEE ID:",
+        },
+        {
+          type: "input",
+          name: "internsEmail",
+          message: "Please enter the intern's EMAIL ADDRESS:",
+        },
+        {
+          type: "input",
+          name: "internsSchool",
+          message: "Please enter the intern's SCHOOL NAME:",
+        },
+      ]);
 
-  // if (menu === "addEngineer")
+    let newIntern = new Intern(
+      internsName,
+      internsID,
+      internsEmail,
+      internsSchool
+    );
 
-  console.log(menu);
+    console.log(newIntern);
+    team.push(newIntern);
+  }
 
   // 2nd put info onto page template (from .\src\page-template.js)
   let renderHTMLDocument = render(team);
