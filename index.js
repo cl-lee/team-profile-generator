@@ -109,17 +109,21 @@ const internQuestions = [
 
 // --- Functions to run inquirer prompts and associated codes ---
 // Menu for user to add an engineer, add an intern or finish building the team
-async function checkMenu() {
+async function menuSelection() {
   let { menu } = await inquirer.prompt(menuQuestions);
   console.log(menu);
   if (menu === "addEngineer") {
     await addAnEngineer();
-    checkMenu();
+    menuSelection();
+  } else if (menu === "addIntern") {
+    await addAnIntern();
+    menuSelection();
   } else {
     console.log("Finished building team");
   }
 }
 
+// Questions for adding an engineer
 async function addAnEngineer() {
   let { engineersName, engineersID, engineersEmail, githubUsername } =
     await inquirer.prompt(engineerQuestions);
@@ -130,6 +134,19 @@ async function addAnEngineer() {
     githubUsername
   );
   team.push(newEngineer);
+}
+
+// Questions for adding an intern
+async function addAnIntern() {
+  let { internsName, internsID, internsEmail, internsSchool } =
+    await inquirer.prompt(internQuestions);
+  let newIntern = new Intern(
+    internsName,
+    internsID,
+    internsEmail,
+    internsSchool
+  );
+  team.push(newIntern);
 }
 
 // Gathers employee information using Inquirer
@@ -149,22 +166,7 @@ async function initiateApplication() {
 
   team.push(newManager);
 
-  await checkMenu();
-
-
-
-
-  // const { internsName, internsID, internsEmail, internsSchool } =
-  //   await inquirer.prompt(internQuestions)
-  // let newIntern = new Intern(
-  //   internsName,
-  //   internsID,
-  //   internsEmail,
-  //   internsSchool
-  // );
-
-  // console.log(newIntern);
-  // team.push(newIntern);
+  await menuSelection();
 
   // 2nd put info onto page template (from .\src\page-template.js)
   let renderHTMLDocument = render(team);
