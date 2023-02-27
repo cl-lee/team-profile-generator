@@ -111,17 +111,16 @@ const internQuestions = [
 // Menu for user to add an engineer, add an intern or finish building the team
 async function menuSelection() {
   let { menu } = await inquirer.prompt(menuQuestions);
-  console.log(menu);
   
   // calls function to add an engineer when user selects "Add an engineer"
   if (menu === "addEngineer") {
     await addAnEngineer();
-    menuSelection();
+    await menuSelection();
 
   // calls function to add an intern when user selects "Add an intern" 
   } else if (menu === "addIntern") {
     await addAnIntern();
-    menuSelection();
+    await menuSelection();
 
   // Finish building the team when selected
   } else {
@@ -177,6 +176,7 @@ async function runApplication() {
   await menuSelection();
 
   // Print info onto "page-template.js" file in "src" folder
+  console.log(team);
   let renderHTMLDocument = render(team);
 
   // Render output onto "team.html" file in "output" folder
