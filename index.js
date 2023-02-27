@@ -16,11 +16,9 @@ const render = require("./src/page-template.js");
 
 let team = [];
 
-
-
 async function initiateApplication() {
   // Inquirer prompts
-  let { managerName, employeeID, emailAddress, officeNumber, menu } =
+  let { managerName, managersID, managersEmail, officeNumber } =
     await inquirer.prompt([
       {
         type: "input",
@@ -29,12 +27,12 @@ async function initiateApplication() {
       },
       {
         type: "input",
-        name: "employeeID",
+        name: "managersID",
         message: "Please enter the team manager's EMPLOYEE ID:",
       },
       {
         type: "input",
-        name: "emailAddress",
+        name: "managersEmail",
         message: "Please enter the team manager's EMAIL ADDRESS:",
       },
       {
@@ -42,42 +40,78 @@ async function initiateApplication() {
         name: "officeNumber",
         message: "Please enter the team manager's OFFICE NUMBER:",
       },
-      {
-        type: "list",
-        name: "menu",
-        message: "Please select an option:",
-        choices: [
-          {
-            name: "Add an engineer",
-            value: "addEngineer",
-            desciption: "Add an engineer",
-          },
-          {
-            name: "Add an intern",
-            value: "addIntern",
-            desciption: "Add an intern",
-          },
-          {
-            name: "Finish building the team",
-            value: "finishTeamBuilding",
-            desciption: "Finish building the team",
-          },
-        ],
-      },
     ]);
-    
-    // if (menu === "addEngineer")
-    
-    console.log(menu);
-  
+
   let newManager = new Manager(
     managerName,
-    employeeID,
-    emailAddress,
+    managersID,
+    managersEmail,
     officeNumber
   );
-
+  
+  console.log(newManager);
   team.push(newManager);
+
+  let { menu } = await inquirer.prompt({
+    type: "list",
+    name: "menu",
+    message: "Please select an option:",
+    choices: [
+      {
+        name: "Add an engineer",
+        value: "addEngineer",
+        desciption: "Add an engineer",
+      },
+      {
+        name: "Add an intern",
+        value: "addIntern",
+        desciption: "Add an intern",
+      },
+      {
+        name: "Finish building the team",
+        value: "finishTeamBuilding",
+        desciption: "Finish building the team",
+      },
+    ],
+  });
+
+  let { engineersName, engineersID, engineersEmail, githubUsername } =
+    await inquirer.prompt([
+      {
+        type: "input",
+        name: "engineersName",
+        message: "Please enter the engineer's NAME:",
+      },
+      {
+        type: "input",
+        name: "engineersID",
+        message: "Please enter the engineer's EMPLOYEE ID:",
+      },
+      {
+        type: "input",
+        name: "engineersEmail",
+        message: "Please enter the engineer's EMAIL ADDRESS:",
+      },
+      {
+        type: "input",
+        name: "githubUsername",
+        message: "Please enter the engineer's GITHUB USERNAME:",
+      },
+    ]);
+
+    let newEngineer = new Engineer(
+      engineersName,
+      engineersID,
+      engineersEmail,
+      githubUsername,
+    );
+    
+    console.log(newEngineer);
+    team.push(newEngineer);
+
+  // if (menu === "addEngineer")
+
+  console.log(menu);
 
   // 2nd put info onto page template (from .\src\page-template.js)
   let renderHTMLDocument = render(team);
