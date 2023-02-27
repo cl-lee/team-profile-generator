@@ -112,18 +112,37 @@ const internQuestions = [
 async function menuSelection() {
   let { menu } = await inquirer.prompt(menuQuestions);
   console.log(menu);
+  
+  // calls function to add an engineer when user selects "Add an engineer"
   if (menu === "addEngineer") {
     await addAnEngineer();
     menuSelection();
+
+  // calls function to add an intern when user selects "Add an intern" 
   } else if (menu === "addIntern") {
     await addAnIntern();
     menuSelection();
+
+  // Finish building the team when selected
   } else {
     console.log("Finished building team");
   }
 }
 
-// Questions for adding an engineer
+// Questions for adding a manager, and push manager to team array
+async function addAManager() {
+  let { managerName, managersID, managersEmail, officeNumber } =
+    await inquirer.prompt(managerQuestions);
+  let newManager = new Manager(
+    managerName,
+    managersID,
+    managersEmail,
+    officeNumber
+  );
+  team.push(newManager);
+}
+
+// Questions for adding an engineer, and push engineer to team array
 async function addAnEngineer() {
   let { engineersName, engineersID, engineersEmail, githubUsername } =
     await inquirer.prompt(engineerQuestions);
@@ -136,7 +155,7 @@ async function addAnEngineer() {
   team.push(newEngineer);
 }
 
-// Questions for adding an intern
+// Questions for adding an intern, and push intern to team array
 async function addAnIntern() {
   let { internsName, internsID, internsEmail, internsSchool } =
     await inquirer.prompt(internQuestions);
@@ -152,29 +171,18 @@ async function addAnIntern() {
 // Gathers employee information using Inquirer
 let team = [];
 
-async function initiateApplication() {
-  // Inquirer prompts
-  let { managerName, managersID, managersEmail, officeNumber } =
-    await inquirer.prompt(managerQuestions);
-
-  let newManager = new Manager(
-    managerName,
-    managersID,
-    managersEmail,
-    officeNumber
-  );
-
-  team.push(newManager);
-
+async function runApplication() {
+  // Calls inquirer prompts
+  await addAManager();
   await menuSelection();
 
-  // 2nd put info onto page template (from .\src\page-template.js)
+  // Print info onto "page-template.js" file in "src" folder
   let renderHTMLDocument = render(team);
 
-  // 3rd generate output (fs writeFile)
+  // Render output onto "team.html" file in "output" folder
   fs.writeFile(outputPath, renderHTMLDocument, (err) =>
     err ? console.error(err) : console.log("Success!")
   );
 }
 
-initiateApplication();
+runApplication();
