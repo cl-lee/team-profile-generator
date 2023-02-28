@@ -77,7 +77,7 @@ After entering the intern's information, users will be taken back to the [naviga
 
 When a user selects "Finish building the team" in the navigation menu, it will generate the output html file and stop running.
 
-The file can be found as "team.html" in the app's output folder.
+The file can be found as "team.html" in the app's output folder.  
 ![The team.html in the output folder](./assets/output-directory.png)
 
 ## Contact
