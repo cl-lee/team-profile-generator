@@ -176,7 +176,6 @@ async function runApplication() {
   await menuSelection();
 
   // Print info onto "page-template.js" file in "src" folder
-  console.log(team);
   let renderHTMLDocument = render(team);
 
   // Render output onto "team.html" file in "output" folder
